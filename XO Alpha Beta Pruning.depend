@@ -1,0 +1,137 @@
+# depslib dependency file v1.0
+1532864959 source:d:\software\kososm hayaty\main.c
+	<stdio.h>
+	<stdlib.h>
+	"game.h"
+	"type.h"
+	"in.h"
+	"out.h"
+
+1532804043 source:d:\software\alpha beta xo\in.c
+	<stdio.h>
+	<stdlib.h>
+	"in.h"
+	"conf.h"
+
+1532798914 d:\software\alpha beta xo\in.h
+
+1532787231 d:\software\alpha beta xo\conf.h
+
+1532798914 source:d:\software\alpha beta xo\in.h
+
+1532868098 source:d:\software\kososm hayaty\game.c
+	"game.h"
+	"util.h"
+	<stdlib.h>
+	<stdio.h>
+	"tree.h"
+
+1532825024 d:\software\kososm hayaty\game.h
+	"type.h"
+	"conf.h"
+
+1532819439 d:\software\kososm hayaty\type.h
+	"conf.h"
+
+1532810107 d:\software\kososm hayaty\conf.h
+
+1532864926 source:d:\software\kososm hayaty\in.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"in.h"
+	"conf.h"
+	"type.h"
+	"game.h"
+	"tree.h"
+
+1532822287 d:\software\kososm hayaty\in.h
+
+1532868042 source:d:\software\kososm hayaty\out.c
+	<stdio.h>
+	<stdlib.h>
+	"out.h"
+	"conf.h"
+	"game.h"
+	"type.h"
+	"stdlib.h"
+
+1532824698 d:\software\kososm hayaty\out.h
+	"type.h"
+
+1532864933 source:d:\software\kososm hayaty\tree.c
+	<stdlib.h>
+	"tree.h"
+
+1532864904 d:\software\kososm hayaty\tree.h
+	"type.h"
+	"conf.h"
+
+1532818958 source:d:\software\kososm hayaty\util.c
+	"util.h"
+	"game.h"
+
+1532818064 d:\software\kososm hayaty\util.h
+
+1532864926 source:d:\software\xo alpha beta pruning\in.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"in.h"
+	"conf.h"
+	"type.h"
+	"game.h"
+	"tree.h"
+
+1532822287 d:\software\xo alpha beta pruning\in.h
+
+1532810107 d:\software\xo alpha beta pruning\conf.h
+
+1532819439 d:\software\xo alpha beta pruning\type.h
+	"conf.h"
+
+1532825024 d:\software\xo alpha beta pruning\game.h
+	"type.h"
+	"conf.h"
+
+1532864904 d:\software\xo alpha beta pruning\tree.h
+	"type.h"
+	"conf.h"
+
+1532877623 source:d:\software\xo alpha beta pruning\out.c
+	<stdio.h>
+	<stdlib.h>
+	"out.h"
+	"conf.h"
+	"game.h"
+	"type.h"
+	"stdlib.h"
+
+1532824698 d:\software\xo alpha beta pruning\out.h
+	"type.h"
+
+1532871329 source:d:\software\xo alpha beta pruning\tree.c
+	<stdlib.h>
+	"tree.h"
+
+1532869728 source:d:\software\xo alpha beta pruning\util.c
+	"util.h"
+	"game.h"
+
+1532818064 d:\software\xo alpha beta pruning\util.h
+
+1532877993 source:d:\software\xo alpha beta pruning\game.c
+	"game.h"
+	"util.h"
+	<stdlib.h>
+	<stdio.h>
+	"tree.h"
+
+1532868304 source:d:\software\xo alpha beta pruning\main.c
+	<stdio.h>
+	<stdlib.h>
+	"game.h"
+	"type.h"
+	"in.h"
+	"out.h"
+
