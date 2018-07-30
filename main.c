@@ -8,6 +8,8 @@
 int main()
 {
     GAME_init();
+    TREE_printNumberOfNodes();
+    while(getch() != 13);
     while(!GAME_isGameOver())
     {
         OUT_clrScreen();

@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "tree.h"
 
-//#define prune  //has problems for now
+#define prune  //works well
 /*Private interfaces*/
 int     GAME_heur(tGAME_BOARD board[SIZE][SIZE]);
 int     GAME_isTerminal(tGAME_BOARD board[][SIZE]);
@@ -214,7 +214,7 @@ tNODE*  GAME_getMinHeur(tNODE *parent)
 
 
 
-    if(parent->numOfChildren == 0 )
+    if(parent->data == 0 ) //pruned
         GAME_AlphaBeta(parent,-1000,1000,0);
 
     for(int i=0; i < (parent->numOfChildren); i++)
