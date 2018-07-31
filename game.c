@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "tree.h"
 
-#define prune  //works well
+//#define prune  //works well
 /*Private interfaces*/
 int     GAME_heur(tGAME_BOARD board[SIZE][SIZE]);
 int     GAME_isTerminal(tGAME_BOARD board[][SIZE]);
@@ -19,14 +19,16 @@ tNODE*  GAME_findChild(tNODE *parent,tNODE *possibleChild);
  tGAME_BOARD initialBoard[SIZE][SIZE];
 
 tPLAYER currentPlayer = COMPUTER;
+tNODE *currentRoot;
 tNODE *currentNode, *tmpNode;
+
 
 void GAME_init(void)
 {
     int i,j;
-    for( i=0; i<3;i++)
+    for( i=0; i<SIZE;i++)
     {
-        for( j=0; j<3;j++)
+        for( j=0; j<SIZE;j++)
         {
             initialBoard[i][j]= ' ';
         }
@@ -40,8 +42,8 @@ void GAME_init(void)
     //initialBoard[2][0] = 'x';
     //initialBoard[2][2] = 'x';
 #endif
-    currentNode = TREE_createTree(initialBoard,SIZE*SIZE);
-
+    currentNode = TREE_createTree(initialBoard,(SIZE*SIZE));
+    currentRoot = currentNode;
     //if successfully allocated, construct the tree
     if(currentNode)
     {
@@ -88,6 +90,7 @@ void GAME_declareWinner(void)
 // returns 1 if 'x' wins, -1 if 'o' wins, 0 if no one wins
 int GAME_heur(tGAME_BOARD board[SIZE][SIZE]) //tested OK
 {
+
     int i,j;
     char x;
     for( i=0; i<SIZE; i++)
@@ -117,18 +120,21 @@ int GAME_heur(tGAME_BOARD board[SIZE][SIZE]) //tested OK
             }
         }
     }
+
     return 0;
 }
 
 int GAME_isTerminal(tGAME_BOARD board[SIZE][SIZE])
 {
     int i,j;
+    int heurValue;
     /*check if any of the players win*/
-    if(GAME_heur(board) == 1 || GAME_heur(board) == -1 ) return 1;
+    heurValue = GAME_heur(board);
+    if(heurValue == 1 || heurValue == -1 ) return 1;
     /*check for a draw*/
     for( i=0; i<SIZE ; i++)
         for( j=0; j<SIZE; j++)
-            if(board[i][j] != 'x' && board[i][j]!= 'o') return 0;
+            if(board[i][j] != 'x' && board[i][j]!= 'o') return 0; //not a terminal
 
     return 1;
 }
@@ -157,13 +163,17 @@ void GAME_generateChildren(tNODE *n,tGAME_BOARD board[SIZE][SIZE], char player)
                 /*Allocate 2d array*/
                 int k;
                 tGAME_BOARD **newBoard = (tGAME_BOARD**)malloc(SIZE*sizeof(tGAME_BOARD*));
-                for( k=0; k<SIZE;k++) newBoard[k] = (char*) malloc(SIZE*sizeof(char));
-                /*newBoard is a copy of currentBoard*/
-                UTIL_copyState(board,newBoard);
-                /*play at the possible position*/
-                GAME_play(newBoard,i,j,player);
-                /*add the new node to the tree*/
-                TREE_addChild(newBoard,n,n->capacity);
+                for( k=0; k<SIZE;k++) newBoard[k] = (tGAME_BOARD*) malloc(SIZE*sizeof(tGAME_BOARD));
+                if(newBoard)
+                {
+                    /*newBoard is a copy of currentBoard*/
+                    UTIL_copyState(board,newBoard);
+                    /*play at the possible position*/
+                    GAME_play(newBoard,i,j,player);
+                    /*add the new node to the tree*/
+                    TREE_addChild(newBoard,n,n->capacity);
+                }
+                else printf("\nInside generate children : allocation failed\n");
             }
         }
     }
@@ -171,6 +181,8 @@ void GAME_generateChildren(tNODE *n,tGAME_BOARD board[SIZE][SIZE], char player)
 
 int GAME_AlphaBeta(tNODE *n, int alpha, int beta,int maximizing)
 {
+
+    int i;
     if(GAME_isTerminal(n->board) == 1)
     {
         n->data = GAME_heur(n->board);
@@ -180,11 +192,11 @@ int GAME_AlphaBeta(tNODE *n, int alpha, int beta,int maximizing)
     if(maximizing)
     {
         GAME_generateChildren(n,n->board,'x');
-        for(int i=0; i < n->numOfChildren; i++)
+        for(i=0; i < (n->numOfChildren); i++)
         {
             alpha = UTIL_max(alpha,GAME_AlphaBeta(n->children[i],alpha,beta,!maximizing));
             #ifdef prune
-            if(alpha >= beta) break;
+            if(alpha >= beta){break;}
             #endif // prune
         }
         n->data = alpha;
@@ -195,7 +207,7 @@ int GAME_AlphaBeta(tNODE *n, int alpha, int beta,int maximizing)
     else
     {
         GAME_generateChildren(n,n->board,'o');
-        for(int i=0; i < n->numOfChildren; i++)
+        for(i=0; i < n->numOfChildren; i++)
         {
             beta = UTIL_min(beta,GAME_AlphaBeta(n->children[i],alpha,beta,!maximizing));
             #ifdef prune
@@ -211,11 +223,21 @@ tNODE*  GAME_getMinHeur(tNODE *parent)
 {
     int min = 10000;
     tNODE *minNode = NULL;
-
-
-
-    if(parent->data == 0 ) //pruned
-        GAME_AlphaBeta(parent,-1000,1000,0);
+#ifdef prune
+    if(parent->data == 0 && parent->children[parent->numOfChildren-1]->data == 5) //pruned
+    {
+        /*Make a clone of the current parent*/
+        tNODE *newParent = TREE_createNode(parent->board,parent->capacity);
+        /*Destroy current tree*/
+        TREE_destroyTree(currentRoot);
+        numOfNodes = 0;
+        /*Make a new Tree*/
+        GAME_AlphaBeta(newParent,-1000,1000,0);
+        /*update the new root*/
+        currentRoot = newParent;
+        parent = newParent;
+   }
+#endif
 
     for(int i=0; i < (parent->numOfChildren); i++)
     {
@@ -236,14 +258,28 @@ tNODE* GAME_findChild(tNODE *parent,tNODE *possibleChild)
         if(UTIL_isEqual(parent->children[i]->board,possibleChild->board))
         {
             free(possibleChild);
+            numOfNodes--;
             return (parent->children[i]);
         }
     }
-    printf("got hereeeeeee");
-    while(getch() != 13);
-    GAME_AlphaBeta(possibleChild,-1000,1000,0);
+    #ifndef prune
+    printf("\nShouldn't be here\nSomething went wrong!\n");
+    while(getch());
+    #endif // prune
+
+
+    TREE_destroyTree(currentRoot);
+    currentRoot = possibleChild;
+    GAME_AlphaBeta(currentRoot,-1000,1000,0);
     return possibleChild;
+
 }
 
+void GAME_printTreeCount(void)
+{
+    count = 0;
+    Tree_countTree(currentNode);
+    printf("Count = %d \n",count);
 
+}
 

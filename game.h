@@ -5,7 +5,9 @@
 #include "conf.h"
 
 extern tPLAYER currentPlayer;
+extern tNODE *currentRoot;
 extern tNODE *currentNode, *tmpNode;
+
 
 
 void            GAME_init(void);
@@ -16,5 +18,7 @@ void            GAME_play(tGAME_BOARD board[SIZE][SIZE], char Xpos, char Ypos, c
 void            GAME_verifyMove(void);
 void            GAME_switchTurns(void);
 void            GAME_declareWinner(void);
+
+void GAME_printTreeCount(void);
 
 #endif // GAME_H_INCLUDED

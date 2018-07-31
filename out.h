@@ -1,7 +1,7 @@
 #ifndef OUT_H_INCLUDED
 #define OUT_H_INCLUDED
 #include "type.h"
-
+#include "conf.h"
 //
 //Public Interface
 //

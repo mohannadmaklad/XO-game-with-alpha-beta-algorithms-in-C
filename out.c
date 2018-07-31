@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "out.h"
-#include "conf.h"
 #include "game.h"
 #include "type.h"
 #include "stdlib.h"
@@ -32,9 +31,6 @@ void OUT_displayBoard(tGAME_BOARD board[][SIZE])
 void OUT_printChildren(tNODE *n)
 {
     int i;
-
-    //printf("\nparent data = %d \n",n->data);
-    //printf("Heur = %d\n",GAME_heur(n->board));
 
     for( i=0; i<n->numOfChildren;i++)
     {
