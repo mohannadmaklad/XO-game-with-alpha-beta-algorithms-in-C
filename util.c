@@ -1,6 +1,6 @@
 #include "util.h"
 #include "game.h"
-
+#include <stdlib.h>
 
 int UTIL_isEqual(char board1[SIZE][SIZE],char board2[SIZE][SIZE])
 {
@@ -28,4 +28,24 @@ int UTIL_min(int a, int b)
 {
     if(a<b) return a;
     else return b;
+}
+
+tGAME_BOARD**   UTIL_create2dArr(int size)
+{
+    int k;
+    tGAME_BOARD **newBoard = (tGAME_BOARD**) malloc (size*sizeof(tGAME_BOARD*));
+    for( k=0; k<SIZE;k++) newBoard[k] = (tGAME_BOARD*) malloc(size*sizeof(tGAME_BOARD));
+
+    return newBoard;
+}
+
+
+void    UTIL_free2dArr(char arr[SIZE][SIZE], int size)
+{
+        int i;
+        for(i=0;i<size;i++)
+        {
+            if(arr[i]) free(arr[i]);
+        }
+        if(arr) free(arr);
 }

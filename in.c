@@ -13,8 +13,7 @@ int cursorX , cursorY ;
 /*Private interface*/
 void IN_updateCursor(void);
 void IN_verifyMove(void);
-int IN_chek_validity(tGAME_BOARD board[SIZE][SIZE])
-{return(board[cursorY][cursorX] != 'o' && board[cursorY][cursorX] != 'x' );}
+int IN_chek_validity(tGAME_BOARD board[SIZE][SIZE]) {return(board[cursorY][cursorX] == ' ');}
 /*If human move is valid, update currentNode*/
 
 
@@ -64,7 +63,7 @@ void IN_verifyMove(void)
     if(IN_chek_validity(buf))
     {
         GAME_play(buf,cursorX,cursorY,'x');
-        tmpNode = TREE_createTree(buf,(currentNode->capacity)-1);
+        tmpNode = TREE_createNode(buf,(currentNode->capacity)-1);
         currentNode = GAME_findChild(currentNode,tmpNode);
 
     }

@@ -135,3 +135,69 @@
 	"in.h"
 	"out.h"
 
+1533740780 source:c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\game.c
+	"game.h"
+	"util.h"
+	<stdlib.h>
+	<stdio.h>
+	"tree.h"
+	<malloc.h>
+
+1533164098 c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\game.h
+	"type.h"
+	"conf.h"
+
+1533154123 c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\type.h
+	"conf.h"
+
+1533160755 c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\conf.h
+
+1533740530 c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\util.h
+	"conf.h"
+	"type.h"
+
+1533159483 c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\tree.h
+	"type.h"
+	"conf.h"
+
+1533739463 source:c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\in.c
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	"in.h"
+	"conf.h"
+	"type.h"
+	"game.h"
+	"tree.h"
+
+1532928324 c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\in.h
+
+1532977994 source:c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\out.c
+	<stdio.h>
+	<stdlib.h>
+	"out.h"
+	"game.h"
+	"type.h"
+	"stdlib.h"
+
+1532977594 c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\out.h
+	"type.h"
+	"conf.h"
+
+1533166039 source:c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\tree.c
+	<stdlib.h>
+	"tree.h"
+
+1533740508 source:c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\util.c
+	"util.h"
+	"game.h"
+	<stdlib.h>
+
+1533166999 source:c:\users\ascom\downloads\xo-game-with-alpha-beta-algorithms-in-c-master\xo-game-with-alpha-beta-algorithms-in-c-master\main.c
+	<stdio.h>
+	<stdlib.h>
+	"game.h"
+	"type.h"
+	"in.h"
+	"out.h"
+

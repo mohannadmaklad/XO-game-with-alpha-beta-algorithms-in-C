@@ -9,7 +9,6 @@ extern tNODE *currentRoot;
 extern tNODE *currentNode, *tmpNode;
 
 
-
 void            GAME_init(void);
 tGAME_BOARD**   GAME_getBoard(void);
 void            GAME_getBestMove(void);
@@ -18,7 +17,8 @@ void            GAME_play(tGAME_BOARD board[SIZE][SIZE], char Xpos, char Ypos, c
 void            GAME_verifyMove(void);
 void            GAME_switchTurns(void);
 void            GAME_declareWinner(void);
-
-void GAME_printTreeCount(void);
+int             GAME_heur(tGAME_BOARD board[SIZE][SIZE]);
+tNODE*          GAME_findChild(tNODE *parent,tNODE *possibleChild);
+void            GAME_printTreeCount(void);
 
 #endif // GAME_H_INCLUDED

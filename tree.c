@@ -1,13 +1,6 @@
 #include <stdlib.h>
 #include "tree.h"
 
-/*Private interface fns*/
-void    TREE_initNode(tNODE *myNode, tGAME_BOARD board[SIZE][SIZE], int capacity );
-tNODE*  TREE_createNode(tGAME_BOARD board[SIZE][SIZE], int capacity);
-tNODE*  TREE_addChild(tGAME_BOARD board[SIZE][SIZE], tNODE *parent,int capacity);
-void    Tree_countTree(tNODE *root);
-
-
 int numOfNodes = 0;
 int count = 0;
 
@@ -22,24 +15,16 @@ void TREE_initNode(tNODE *myNode, tGAME_BOARD board[SIZE][SIZE], int capacity )
 }
 
 
-tNODE *TREE_createTree(tGAME_BOARD board[SIZE][SIZE], int capacity)
-{
-    /*Allocate memory for the root node*/
-    tNODE *rtnNode = (tNODE*)malloc(sizeof(tNODE));
-    /*Initialize the root and return it*/
-    if(rtnNode)
-        TREE_initNode(rtnNode,board,capacity);
-    else printf("\nInside TREE_createTree : failed to allocate a new node\n");
-    return rtnNode;
-}
-
 tNODE *TREE_createNode(tGAME_BOARD board[SIZE][SIZE], int capacity)
 {
     /*Allocate memory for the root node*/
     tNODE *rtnNode = (tNODE*)malloc(sizeof(tNODE));
     /*Initialize the root and return it*/
     if(rtnNode)
+    {
+        rtnNode ->board = NULL;
         TREE_initNode(rtnNode,board,capacity);
+    }
     else printf("\nInside TREE_createTree : failed to allocate a new node\n");
     return rtnNode;
 }
@@ -72,11 +57,15 @@ void TREE_destroyTree(tNODE *root)
         return;
     }
 
+
+
     for(i = 0; i<root->numOfChildren ; i++)
     {
         TREE_destroyTree(root->children[i]);
     }
 
+
+    UTIL_free2dArr(root->board,SIZE);
     free(root);
     numOfNodes--;
 }

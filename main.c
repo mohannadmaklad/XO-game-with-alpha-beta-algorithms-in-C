@@ -11,18 +11,26 @@
 int main()
 {
     GAME_init();
+
     GAME_printTreeCount();
     TREE_printNumberOfNodes();
-    printf("\nUse w,a,s,d for directions\n");
+
+    GAME_printTreeCount();
+    TREE_printNumberOfNodes();
+
+while(getch() != 13);
+
 #ifndef debug
+    printf("\nUse w,a,s,d for directions\n");
     while(getch() != 13);
     while(!GAME_isGameOver())
     {
 
         OUT_clrScreen();
         OUT_displayBoard(GAME_getBoard());
-        TREE_printNumberOfNodes();
         GAME_printTreeCount();
+        TREE_printNumberOfNodes();
+
         if(currentPlayer == COMPUTER)
         {
             GAME_getBestMove();

@@ -3,16 +3,16 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "tree.h"
-
-//#define prune  //works well
+#include <malloc.h>
+#define prune  //works well
 /*Private interfaces*/
-int     GAME_heur(tGAME_BOARD board[SIZE][SIZE]);
-int     GAME_isTerminal(tGAME_BOARD board[][SIZE]);
-int     GAME_AlphaBeta(tNODE *n, int alpha, int beta,int maximizing);
-void    GAME_generateChildren(tNODE *n,tGAME_BOARD board[SIZE][SIZE], char player);
-tNODE*  GAME_getMinHeur(tNODE *parent);
-void    GAME_constructTree(void);
-tNODE*  GAME_findChild(tNODE *parent,tNODE *possibleChild);
+
+static int     GAME_heurCheckCross(tGAME_BOARD board[SIZE][SIZE]);
+static int     GAME_isTerminal(tGAME_BOARD board[][SIZE]);
+static int     GAME_AlphaBeta(tNODE *n, int alpha, int beta,int maximizing);
+static void    GAME_generateChildren(tNODE *n,tGAME_BOARD board[SIZE][SIZE], char player);
+static tNODE*  GAME_getMinHeur(tNODE *parent);
+static void    GAME_constructTree(void);
 
 
  tGAME_BOARD buffer[SIZE][SIZE];
@@ -21,6 +21,8 @@ tNODE*  GAME_findChild(tNODE *parent,tNODE *possibleChild);
 tPLAYER currentPlayer = COMPUTER;
 tNODE *currentRoot;
 tNODE *currentNode, *tmpNode;
+
+
 
 
 void GAME_init(void)
@@ -33,16 +35,15 @@ void GAME_init(void)
             initialBoard[i][j]= ' ';
         }
     }
-#ifdef debug
-    //initialBoard[0][0] = 'o';
-    //initialBoard[0][1] = 'o';
-    //initialBoard[0][2] = 'o';
-    //initialBoard[1][0] = 'o';
-    //initialBoard[1][1] = 'x';
-    //initialBoard[2][0] = 'x';
-    //initialBoard[2][2] = 'x';
-#endif
-    currentNode = TREE_createTree(initialBoard,(SIZE*SIZE));
+
+    #if SIZE == 4
+    initialBoard[0][0] = 'o';
+    initialBoard[0][1] = 'x';
+    initialBoard[0][2] = 'o';
+    initialBoard[0][3] = 'x';
+    #endif // SIZE
+
+    currentNode = TREE_createNode(initialBoard,(SIZE*SIZE));
     currentRoot = currentNode;
     //if successfully allocated, construct the tree
     if(currentNode)
@@ -52,6 +53,7 @@ void GAME_init(void)
         printf("\nDone :)\n");
     }
 }
+
 
 tGAME_BOARD** GAME_getBoard()
 {
@@ -87,12 +89,49 @@ void GAME_declareWinner(void)
 }
 /*Private interfaces*/
 
+
+int GAME_heurCheckCross(tGAME_BOARD board[SIZE][SIZE])
+{
+
+    int i;
+    char tmp;
+
+    tmp = board[0][0];
+    for(i = 0; i<SIZE ; i++)
+    {
+        if(board[i][i] != tmp) break;
+    }
+
+    if(i == SIZE)
+    {
+        if(tmp == 'x') return 1;
+        else if(tmp == 'o') return -1;
+    }
+
+    tmp = board[0][SIZE-1];
+    for(i = 0; i<SIZE ; i++)
+    {
+        if(board[i][SIZE-1-i] != tmp) break;
+    }
+
+    if(i == SIZE)
+    {
+        if(tmp == 'x') return 1;
+        else if(tmp == 'o') return -1;
+
+    }
+    return 0;
+}
+
 // returns 1 if 'x' wins, -1 if 'o' wins, 0 if no one wins
 int GAME_heur(tGAME_BOARD board[SIZE][SIZE]) //tested OK
 {
-
     int i,j;
     char x;
+
+    if(GAME_heurCheckCross(board) == 1 ) return 1;
+    else if(GAME_heurCheckCross(board) == -1 ) return -1;
+
     for( i=0; i<SIZE; i++)
     {
         x = board[i][0];
@@ -161,9 +200,7 @@ void GAME_generateChildren(tNODE *n,tGAME_BOARD board[SIZE][SIZE], char player)
             if(board[j][i] == ' ')
             {
                 /*Allocate 2d array*/
-                int k;
-                tGAME_BOARD **newBoard = (tGAME_BOARD**)malloc(SIZE*sizeof(tGAME_BOARD*));
-                for( k=0; k<SIZE;k++) newBoard[k] = (tGAME_BOARD*) malloc(SIZE*sizeof(tGAME_BOARD));
+                tGAME_BOARD **newBoard = UTIL_create2dArr(SIZE);
                 if(newBoard)
                 {
                     /*newBoard is a copy of currentBoard*/
@@ -224,10 +261,14 @@ tNODE*  GAME_getMinHeur(tNODE *parent)
     int min = 10000;
     tNODE *minNode = NULL;
 #ifdef prune
+    //if(parent->data == 0 && parent->children[parent->numOfChildren-1]->data == 5) //pruned
     if(parent->data == 0 && parent->children[parent->numOfChildren-1]->data == 5) //pruned
     {
         /*Make a clone of the current parent*/
-        tNODE *newParent = TREE_createNode(parent->board,parent->capacity);
+        tGAME_BOARD **newBoard = UTIL_create2dArr(SIZE);
+        UTIL_copyState(parent->board,newBoard);
+
+        tNODE *newParent = TREE_createNode(newBoard,parent->capacity);
         /*Destroy current tree*/
         TREE_destroyTree(currentRoot);
         numOfNodes = 0;
@@ -268,7 +309,10 @@ tNODE* GAME_findChild(tNODE *parent,tNODE *possibleChild)
     #endif // prune
 
 
-    TREE_destroyTree(currentRoot);
+    printf("\nGot here!\n");
+    while(getch());
+
+    //TREE_destroyTree(currentRoot);
     currentRoot = possibleChild;
     GAME_AlphaBeta(currentRoot,-1000,1000,0);
     return possibleChild;
@@ -278,8 +322,7 @@ tNODE* GAME_findChild(tNODE *parent,tNODE *possibleChild)
 void GAME_printTreeCount(void)
 {
     count = 0;
-    Tree_countTree(currentNode);
-    printf("Count = %d \n",count);
-
+    Tree_countTree(currentRoot);
+    printf("\nCount = %d \n",count);
 }
 

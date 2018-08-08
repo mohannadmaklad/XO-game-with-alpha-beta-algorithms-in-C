@@ -7,10 +7,10 @@ typedef char tGAME_BOARD;
 
 struct node
 {
-    int data;                 //alpha beta value
+    char data;                 //alpha beta value
     tGAME_BOARD** board;
-    int numOfChildren;
-    int capacity;
+    char numOfChildren;
+    char capacity;
     tNODE **children;
 };
 
